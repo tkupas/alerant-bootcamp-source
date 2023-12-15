@@ -1,0 +1,19 @@
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+    - task: Docker@2
+  displayName: Build and publish image to Azure Container Registry
+  inputs:
+    command: buildAndPush
+    containerRegistry: 'Test Connection'
+    repository: 'BootCampLab/TKupas'
+    dockerfile: 'Dockerfile'
+    tags: |
+      1.0.0
